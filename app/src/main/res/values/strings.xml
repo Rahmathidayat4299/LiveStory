@@ -1,7 +1,15 @@
 <resources>
     <string name="app_name">LiveStory</string>
     <string name="koli">koli</string>
-    <string name="email">email</string>
-    <string name="password">password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="name_required">Name is required!</string>
+    <string name="email_valid">Valid</string>
+    <string name="email_invalid">Invalid</string>
+    <string name="password_required">input Password </string>
+    <string name="register">Register</string>
+    <string name="warning_password">Password must be more than 6 character</string>
+    <string name="warning_email">Invalid email</string>
+    <string name="if_you_don_t_have_account_signup">if you don\'t have account, Signup</string>
 </resources>
