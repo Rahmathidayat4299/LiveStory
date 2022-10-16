@@ -6,20 +6,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.dicoding.livestory.MainActivity
 import com.dicoding.livestory.authorization.register.RegisterActivity
 import com.dicoding.livestory.databinding.ActivityLoginBinding
 import com.dicoding.livestory.model.Result
-import com.dicoding.livestory.util.SharedPreferences
-import com.dicoding.livestory.util.gone
-import com.dicoding.livestory.util.visible
+import com.dicoding.livestory.util.*
 import com.dicoding.livestory.viewmodel.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var sharedpref: SharedPreferences
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         playAnimation()
+        editTextFilled()
         binding.login.setOnClickListener {
             login()
         }
@@ -38,9 +37,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login() {
         val factory = ViewModelFactory.getInstance(this)
-        val loginVm: LoginVm by viewModels { factory }
-        val email = binding.edtEmail.text.toString()
-        val password = binding.edtPassword.text.toString()
+        val loginVm = ViewModelProvider(this,factory)[LoginVm::class.java]
+        val email = binding.edtEmail.text.toString().trim()
+        val password = binding.edtPassword.text.toString().trim()
         loginVm.loginUser(email, password).observe(this) { result ->
             if (result != null) {
                 when (result) {
@@ -53,8 +52,8 @@ class LoginActivity : AppCompatActivity() {
                         val name = result.data.loginResult.name
                         val token = result.data.loginResult.token
 
-                        sharedpref = SharedPreferences(this)
-                        sharedpref.saveDataUser(userId, name, token, true)
+                        sharedPref = SharedPreferences(this)
+                        sharedPref.saveDataUser(userId, name, token, true)
                         Intent(this@LoginActivity, MainActivity::class.java).also {
                             startActivity(it)
                             finish()
@@ -72,6 +71,19 @@ class LoginActivity : AppCompatActivity() {
             }
 
         }
+    }
+
+    private fun editTextFilled() {
+        binding.edtEmail.onTextChanged { enableEditText() }
+        binding.edtPassword.onTextChanged { enableEditText() }
+
+    }
+
+    private fun enableEditText() {
+        val email = binding.edtEmail.text.toString().trim()
+        val password = binding.edtPassword.text.toString().trim()
+        binding.login.isEnabled =
+            email.isNotEmpty() && emailValid(email) && password.length > 6 && password.isNotEmpty()
     }
 
     private fun playAnimation() {
