@@ -16,9 +16,9 @@ class ViewModelFactory private constructor(private val repository: Repository) :
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
-//            modelClass.isAssignableFrom(StoryViewModel::class.java) -> {
-//                return StoryViewModel(storyRepository) as T
-//            }
+            modelClass.isAssignableFrom(ListStoryViewModel::class.java) -> {
+                return ListStoryViewModel(repository) as T
+            }
             modelClass.isAssignableFrom(LoginVm::class.java) -> {
                 return LoginVm(repository) as T
             }

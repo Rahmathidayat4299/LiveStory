@@ -8,6 +8,6 @@ import com.dicoding.livestory.model.Repository
  */
 class ListStoryViewModel(private val repository: Repository) : ViewModel() {
 
-    fun getDataStory(apiKey: String) = repository.getStoryList(apiKey)
+    fun getListStory(apiKey: String) = repository.getStoryList(apiKey)
 
 }

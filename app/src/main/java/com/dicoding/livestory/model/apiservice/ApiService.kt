@@ -1,11 +1,11 @@
 package com.dicoding.livestory.model.apiservice
 
-import com.dicoding.livestory.model.remote.RegisterRemote
-import com.dicoding.livestory.model.result.*
+import com.dicoding.livestory.model.result.LoginResult
+import com.dicoding.livestory.model.result.RegisterResult
+import com.dicoding.livestory.model.result.ResultStory
+import com.dicoding.livestory.model.result.UploadDataResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 /**

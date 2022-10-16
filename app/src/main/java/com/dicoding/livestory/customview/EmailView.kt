@@ -53,7 +53,7 @@ class EmailView : AppCompatEditText, View.OnTouchListener {
         error = if (email.isNullOrEmpty()) {
             resources.getString(R.string.email_valid)
         } else if (!emailValid(email.toString())) {
-            resources.getString(R.string.email)
+            resources.getString(R.string.invalid_email)
         } else {
             return
         }

@@ -43,7 +43,7 @@
         app:layout_constraintTop_toBottomOf="@id/lottie"
         app:startIconDrawable="@drawable/ic_email">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dicoding.livestory.customview.EmailView
             android:id="@+id/edtEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -58,13 +58,13 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:alpha="0"
-        android:hint="@string/password"
+
         app:layout_constraintEnd_toEndOf="@id/inputtEmail"
         app:layout_constraintStart_toStartOf="@id/inputtEmail"
         app:layout_constraintTop_toBottomOf="@id/inputtEmail"
         app:startIconDrawable="@drawable/ic_lock">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.dicoding.livestory.customview.PasswordView
             android:id="@+id/edtPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

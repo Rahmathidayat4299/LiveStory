@@ -4,16 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".story.ListStory">
 
-    <TextView
-        android:id="@+id/textView"
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="@+id/recycleViewListStory"
+        app:layout_constraintTop_toTopOf="@+id/recycleViewListStory" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleViewListStory"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="@string/koli"
-        android:textSize="40sp"
-        android:textStyle="bold"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:listitem="@layout/item_story" />
 </androidx.constraintlayout.widget.ConstraintLayout>

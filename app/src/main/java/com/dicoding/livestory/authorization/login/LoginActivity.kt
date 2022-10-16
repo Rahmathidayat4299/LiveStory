@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.livestory.MainActivity
+import com.dicoding.livestory.story.ListStory
 import com.dicoding.livestory.authorization.register.RegisterActivity
 import com.dicoding.livestory.databinding.ActivityLoginBinding
 import com.dicoding.livestory.model.Result
@@ -54,7 +54,7 @@ class LoginActivity : AppCompatActivity() {
 
                         sharedPref = SharedPreferences(this)
                         sharedPref.saveDataUser(userId, name, token, true)
-                        Intent(this@LoginActivity, MainActivity::class.java).also {
+                        Intent(this@LoginActivity, ListStory::class.java).also {
                             startActivity(it)
                             finish()
                         }

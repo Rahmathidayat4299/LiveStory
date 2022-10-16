@@ -5,7 +5,6 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.dicoding.livestory.model.remote.ModelSession
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 

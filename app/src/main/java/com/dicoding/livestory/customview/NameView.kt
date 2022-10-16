@@ -31,7 +31,7 @@ class NameView : AppCompatEditText, View.OnTouchListener {
     }
 
 
-    private fun checkName() {
+    private fun validateName() {
         val name = text?.trim()
         if (name.isNullOrEmpty()) {
             error = resources.getString(R.string.name_required)
@@ -40,7 +40,7 @@ class NameView : AppCompatEditText, View.OnTouchListener {
 
     override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
         super.onFocusChanged(focused, direction, previouslyFocusedRect)
-        if (!focused) checkName()
+        if (!focused) validateName()
     }
 
     override fun onTouch(p0: View?, p1: MotionEvent?): Boolean {
