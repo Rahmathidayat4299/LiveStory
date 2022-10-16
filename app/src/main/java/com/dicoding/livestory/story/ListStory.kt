@@ -2,6 +2,7 @@ package com.dicoding.livestory.story
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,7 +17,7 @@ import com.dicoding.livestory.viewmodel.ViewModelFactory
 class ListStory : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPref: SharedPreferences
-    private lateinit var adapterList: StoryListAdapter
+    private val adapterList = StoryListAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -25,9 +26,12 @@ class ListStory : AppCompatActivity() {
     }
 
     private fun listStory() {
-        val listStoryUser = StoryListAdapter()
+        val listStoryUser = adapterList
         val factory = ViewModelFactory.getInstance(this)
-        val viewModel = ViewModelProvider(this, factory)[ListStoryViewModel::class.java]
+//        val viewModel = ViewModelProvider(this, factory)[ListStoryViewModel::class.java]
+        val viewModel: ListStoryViewModel by viewModels {
+            factory
+        }
         sharedPref = SharedPreferences(this)
         viewModel.getListStory(sharedPref.getToken()).observe(this) { result ->
             if (result != null) {

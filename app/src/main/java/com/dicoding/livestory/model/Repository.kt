@@ -104,7 +104,7 @@ class Repository private constructor(
             }
             memberDao.insertStory(storyList)
         } catch (e: Exception) {
-            Log.d("NewsRepository", "getHeadlineNews: ${e.message.toString()} ")
+            Log.d("Repository", "getListStory: ${e.message.toString()} ")
             emit(Result.Error(e.message.toString()))
         }
         val localData: LiveData<Result<List<EntityStory>>> =
