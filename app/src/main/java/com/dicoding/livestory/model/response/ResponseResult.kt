@@ -1,4 +1,4 @@
-package com.dicoding.livestory.model.result
+package com.dicoding.livestory.model.response
 
 import com.google.gson.annotations.SerializedName
 

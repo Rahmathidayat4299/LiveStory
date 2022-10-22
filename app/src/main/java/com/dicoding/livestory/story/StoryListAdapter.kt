@@ -52,17 +52,17 @@ class StoryListAdapter : ListAdapter<EntityStory, StoryListAdapter.ViewHolder>(D
             tvName.text = dataStory.name
             itemView.setOnClickListener {
 
-//                val moveDetail = Intent(itemView.context, DetailStoryActivity::class.java)
-//                moveDetail.putExtra("story", dataStory)
+                val moveDetail = Intent(itemView.context, StoryDetailActivity::class.java)
+                moveDetail.putExtra("story", dataStory)
 
-                val optionsCompat: ActivityOptionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(
-                        itemView.context as Activity,
-                        Pair(tvName, "name"),
-                        Pair(imgPhoto, "photoUrl"),
-                    )
+//                val optionsCompact: ActivityOptionsCompat =
+//                    ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                        itemView.context as Activity,
+//                        Pair(tvName, "name"),
+//                        Pair(imgPhoto, "photoUrl"),
+//                    )
 
-//                itemView.context.startActivity(moveDetail, optionsCompat.toBundle())
+                itemView.context.startActivity(moveDetail)
             }
 
         }

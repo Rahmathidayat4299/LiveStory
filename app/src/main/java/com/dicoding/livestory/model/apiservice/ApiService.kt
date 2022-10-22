@@ -1,9 +1,9 @@
 package com.dicoding.livestory.model.apiservice
 
-import com.dicoding.livestory.model.result.LoginResult
-import com.dicoding.livestory.model.result.RegisterResult
-import com.dicoding.livestory.model.result.ResultStory
-import com.dicoding.livestory.model.result.UploadDataResponse
+import com.dicoding.livestory.model.response.LoginResult
+import com.dicoding.livestory.model.response.RegisterResult
+import com.dicoding.livestory.model.response.ResultStory
+import com.dicoding.livestory.model.response.UploadDataResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -35,8 +35,8 @@ interface ApiService {
     @Multipart
     @POST("stories")
     suspend fun uploadStory(
-        @Header("Authorization") token: String,
+        @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-        @Part file: MultipartBody.Part
+        @Header("Authorization") token: String
     ): UploadDataResponse
 }

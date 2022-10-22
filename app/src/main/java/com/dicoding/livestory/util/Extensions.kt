@@ -1,9 +1,16 @@
 package com.dicoding.livestory.util
 
+import android.content.ContentResolver
+import android.content.Context
+import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+import java.io.OutputStream
 
 /**
  * Created by Rahmat Hidayat on 08/10/2022.
@@ -27,6 +34,8 @@ fun emailValid(email: String): Boolean {
 
 const val BASE_URL = "https://story-api.dicoding.dev/v1/"
 
+const val SPLASH_SEC = 4000L
+
 fun View.visible() {
     this.visibility = View.VISIBLE
 }
@@ -38,3 +47,4 @@ fun View.invisible() {
 fun View.gone() {
     this.visibility = View.GONE
 }
+

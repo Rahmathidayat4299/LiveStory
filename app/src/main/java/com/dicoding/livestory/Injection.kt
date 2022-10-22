@@ -4,7 +4,6 @@ import android.content.Context
 import com.dicoding.livestory.model.Repository
 import com.dicoding.livestory.model.apiservice.ApiConfig
 import com.dicoding.livestory.model.local.LiveDb
-import com.dicoding.livestory.util.DataPreferences.Companion.getInstance
 
 /**
  * Created by Rahmat Hidayat on 09/10/2022.

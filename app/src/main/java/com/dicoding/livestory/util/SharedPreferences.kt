@@ -8,7 +8,7 @@ import android.content.SharedPreferences
  */
 class SharedPreferences (context: Context){
     private var userSharedPref: SharedPreferences =
-        context.getSharedPreferences("data_user_local", Context.MODE_PRIVATE)
+        context.getSharedPreferences("data_user", Context.MODE_PRIVATE)
 
     fun saveDataUser(userId: String, name: String, token: String, state: Boolean) {
         val edit = userSharedPref.edit()

@@ -44,7 +44,7 @@ class PasswordView : AppCompatEditText {
 
     private fun init() {
 
-        warningTrue = ContextCompat.getDrawable(context, R.drawable.ic_warning) as Drawable
+        warningTrue = ContextCompat.getDrawable(context, R.drawable.ic__check) as Drawable
         transformationMethod = PasswordTransformationMethod.getInstance()
         addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, p1: Int, p2: Int, p3: Int) {

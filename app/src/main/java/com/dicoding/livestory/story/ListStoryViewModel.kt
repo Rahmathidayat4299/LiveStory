@@ -1,4 +1,4 @@
-package com.dicoding.livestory.viewmodel
+package com.dicoding.livestory.story
 
 import androidx.lifecycle.ViewModel
 import com.dicoding.livestory.model.Repository

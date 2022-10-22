@@ -7,9 +7,9 @@ import androidx.lifecycle.map
 import com.dicoding.livestory.model.apiservice.ApiService
 import com.dicoding.livestory.model.local.EntityStory
 import com.dicoding.livestory.model.local.MemberDao
-import com.dicoding.livestory.model.result.LoginResult
-import com.dicoding.livestory.model.result.RegisterResult
-import com.dicoding.livestory.model.result.UploadDataResponse
+import com.dicoding.livestory.model.response.LoginResult
+import com.dicoding.livestory.model.response.RegisterResult
+import com.dicoding.livestory.model.response.UploadDataResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -66,16 +66,16 @@ class Repository private constructor(
     }
 
     fun uploadLiveStory(
-        token: String,
+        file: MultipartBody.Part,
         description: RequestBody,
-        file: MultipartBody.Part
+        token: String
     ): LiveData<Result<UploadDataResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.uploadStory(
-                "$token",
+                file,
                 description,
-                file
+                "Bearer $token"
             )
             if (response.error) {
                 emit(Result.Error(response.message))

@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.livestory.Injection
+import com.dicoding.livestory.addlivestory.AddLiveStoryVm
 import com.dicoding.livestory.authorization.login.LoginVm
 import com.dicoding.livestory.authorization.register.RegisterViewModel
 import com.dicoding.livestory.model.Repository
+import com.dicoding.livestory.story.ListStoryViewModel
 
 /**
  * Created by Rahmat Hidayat on 09/10/2022.
@@ -25,12 +27,9 @@ class ViewModelFactory private constructor(private val repository: Repository) :
             modelClass.isAssignableFrom(RegisterViewModel::class.java) -> {
                 return RegisterViewModel(repository) as T
             }
-//            modelClass.isAssignableFrom(StoryWithMapsViewModel::class.java) -> {
-//                return StoryWithMapsViewModel(storyRepository) as T
-//            }
-//            modelClass.isAssignableFrom(AddStoryViewModel::class.java) -> {
-//                return AddStoryViewModel(storyRepository) as T
-//            }
+            modelClass.isAssignableFrom(AddLiveStoryVm::class.java) -> {
+                return AddLiveStoryVm(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
     }
