@@ -35,8 +35,8 @@ interface ApiService {
     @Multipart
     @POST("stories")
     suspend fun uploadStory(
-        @Part file: MultipartBody.Part,
+        @Header("Authorization") token: String,
         @Part("description") description: RequestBody,
-        @Header("Authorization") token: String
+        @Part file: MultipartBody.Part
     ): UploadDataResponse
 }

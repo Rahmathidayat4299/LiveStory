@@ -66,16 +66,16 @@ class Repository private constructor(
     }
 
     fun uploadLiveStory(
-        file: MultipartBody.Part,
+        token: String,
         description: RequestBody,
-        token: String
+        file: MultipartBody.Part
     ): LiveData<Result<UploadDataResponse>> = liveData {
         emit(Result.Loading)
         try {
             val response = apiService.uploadStory(
-                file,
+                "Bearer $token",
                 description,
-                "Bearer $token"
+                file
             )
             if (response.error) {
                 emit(Result.Error(response.message))

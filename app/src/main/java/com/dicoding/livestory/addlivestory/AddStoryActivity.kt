@@ -1,11 +1,14 @@
 package com.dicoding.livestory.addlivestory
 
 import android.Manifest
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -117,7 +120,7 @@ class AddStoryActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val viewModel = ViewModelProvider(this, factory)[AddLiveStoryVm::class.java]
         sharedPreferences = SharedPreferences(this)
-        if (file != null && binding.edtDescription.text.isNullOrEmpty()) {
+        if (file != null && !binding.edtDescription.text.isNullOrEmpty()) {
             val files = reduceFileImage(file as File)
             val description = binding.edtDescription.text.toString()
                 .toRequestBody("text/plain".toMediaType())
@@ -127,7 +130,7 @@ class AddStoryActivity : AppCompatActivity() {
                 files.name,
                 requestImageFile
             )
-            viewModel.uploadStory( imageMultipart, description,sharedPreferences.getToken())
+            viewModel.uploadStory( sharedPreferences.getToken(),description,imageMultipart)
                 .observe(this) { result ->
                     if (result != null) {
                         when (result) {
@@ -136,28 +139,16 @@ class AddStoryActivity : AppCompatActivity() {
                             }
                             is Result.Success -> {
                                 binding.progressBarUpload.gone()
-                                Toast.makeText(
-                                    this,
-                                    "Success upload story",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                                Intent(this, ListStory::class.java).also {
-                                    startActivity(it)
-                                }
-
+                                Toast.makeText(this, "Success Upload story", Toast.LENGTH_SHORT)
+                                    .show()
+                                Intent(this, ListStory::class.java).also { startActivity(it) }
                             }
                             is Result.Error -> {
                                 binding.progressBarUpload.gone()
-                                Toast.makeText(
-                                    this,
-                                    resources.getString(R.string.message_error) + result.error,
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                Toast.makeText(this, "upload failed", Toast.LENGTH_SHORT).show()
                             }
                         }
                     }
-
-
                 }
 
 

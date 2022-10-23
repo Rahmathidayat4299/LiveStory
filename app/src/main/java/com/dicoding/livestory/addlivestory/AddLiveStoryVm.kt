@@ -10,6 +10,6 @@ import java.io.FileDescriptor
  * Created by Rahmat Hidayat on 22/10/2022.
  */
 class AddLiveStoryVm(private val repository: Repository):ViewModel() {
-    fun uploadStory(file: MultipartBody.Part,description: RequestBody,token:String) = repository.uploadLiveStory(file,description,token)
+    fun uploadStory(token:String ,description: RequestBody,file: MultipartBody.Part) = repository.uploadLiveStory(token ,description,file)
 
 }
