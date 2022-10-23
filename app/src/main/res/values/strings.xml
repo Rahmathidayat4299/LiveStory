@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">LiveStory</string>
-    <string name="koli">koli</string>
     <string name="invalid_email"> invalid Email</string>
     <string name="email">Email</string>
     <string name="password">Password</string>

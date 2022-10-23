@@ -1,4 +1,4 @@
-package com.dicoding.livestory
+package com.dicoding.livestory.di
 
 import android.content.Context
 import com.dicoding.livestory.model.Repository

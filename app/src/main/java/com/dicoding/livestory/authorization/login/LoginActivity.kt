@@ -6,14 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.livestory.story.ListStory
 import com.dicoding.livestory.authorization.register.RegisterActivity
+import com.dicoding.livestory.authorization.register.RegisterViewModel
 import com.dicoding.livestory.databinding.ActivityLoginBinding
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.*
-import com.dicoding.livestory.viewmodel.ViewModelFactory
+import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -37,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun login() {
         val factory = ViewModelFactory.getInstance(this)
-        val loginVm = ViewModelProvider(this,factory)[LoginVm::class.java]
+        val loginVm: LoginVm by viewModels { factory }
         val email = binding.edtEmail.text.toString().trim()
         val password = binding.edtPassword.text.toString().trim()
         loginVm.loginUser(email, password).observe(this) { result ->

@@ -12,9 +12,8 @@ import com.dicoding.livestory.authorization.login.LoginActivity
 import com.dicoding.livestory.databinding.ActivityRegisterBinding
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.gone
-import com.dicoding.livestory.util.onTextChanged
 import com.dicoding.livestory.util.visible
-import com.dicoding.livestory.viewmodel.ViewModelFactory
+import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding

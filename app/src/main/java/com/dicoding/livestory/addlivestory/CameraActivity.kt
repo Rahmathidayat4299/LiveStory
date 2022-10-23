@@ -1,4 +1,4 @@
-package com.dicoding.livestory.story
+package com.dicoding.livestory.addlivestory
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +10,8 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
-import com.dicoding.livestory.addlivestory.AddStoryActivity
 import com.dicoding.livestory.databinding.ActivityCameraBinding
 import com.dicoding.livestory.util.createFile
-import java.util.concurrent.Executor
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

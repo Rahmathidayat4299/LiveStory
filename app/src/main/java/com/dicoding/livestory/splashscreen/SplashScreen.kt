@@ -1,4 +1,4 @@
-package com.dicoding.livestory
+package com.dicoding.livestory.splashscreen
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

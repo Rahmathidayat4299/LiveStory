@@ -17,7 +17,7 @@ import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.SharedPreferences
 import com.dicoding.livestory.util.gone
 import com.dicoding.livestory.util.visible
-import com.dicoding.livestory.viewmodel.ViewModelFactory
+import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
 class ListStory : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -41,10 +41,10 @@ class ListStory : AppCompatActivity() {
             if (result != null) {
                 when (result) {
                     is Result.Loading -> {
-                        binding.progressBar3.visible()
+                        binding.progressBar.visible()
                     }
                     is Result.Success -> {
-                        binding.progressBar3.gone()
+                        binding.progressBar.gone()
                         val listStory = result.data
                         listStoryUser.submitList(listStory)
                     }
@@ -61,10 +61,12 @@ class ListStory : AppCompatActivity() {
             adapter = listStoryUser
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_bar, menu)
         return super.onCreateOptionsMenu(menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.get_photo -> {
@@ -73,24 +75,24 @@ class ListStory : AppCompatActivity() {
                 }
             }
             R.id.close -> {
-                    val builder = AlertDialog.Builder(this)
-                    builder.setTitle(resources.getString(R.string.caution))
-                    builder.setMessage(resources.getString(R.string.To_do))
-                    builder.setPositiveButton(resources.getString(R.string.Yes)) { _, _ ->
-                        this.getSharedPreferences("data_user", 0).edit().clear()
-                            .apply()
-                        Intent(this, LoginActivity::class.java).also {
-                            startActivity(it)
-                        }
-                        finish()
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle(resources.getString(R.string.caution))
+                builder.setMessage(resources.getString(R.string.To_do))
+                builder.setPositiveButton(resources.getString(R.string.Yes)) { _, _ ->
+                    this.getSharedPreferences("data_user", 0).edit().clear()
+                        .apply()
+                    Intent(this, LoginActivity::class.java).also {
+                        startActivity(it)
                     }
-                    builder.setNegativeButton(resources.getString(R.string.No)) { dialog, _ -> // Do nothing
-                        dialog.dismiss()
-                    }
-                    val alert = builder.create()
-                    alert.show()
+                    finish()
                 }
+                builder.setNegativeButton(resources.getString(R.string.No)) { dialog, _ -> // Do nothing
+                    dialog.dismiss()
+                }
+                val alert = builder.create()
+                alert.show()
             }
+        }
         return super.onOptionsItemSelected(item)
     }
 

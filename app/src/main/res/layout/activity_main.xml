@@ -7,7 +7,7 @@
     tools:context=".story.ListStory">
 
     <ProgressBar
-        android:id="@+id/progressBar3"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"

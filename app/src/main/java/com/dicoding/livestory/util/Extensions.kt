@@ -1,16 +1,9 @@
 package com.dicoding.livestory.util
 
-import android.content.ContentResolver
-import android.content.Context
-import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.OutputStream
 
 /**
  * Created by Rahmat Hidayat on 08/10/2022.
