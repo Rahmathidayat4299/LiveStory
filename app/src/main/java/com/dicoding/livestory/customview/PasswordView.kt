@@ -64,7 +64,7 @@ class PasswordView : AppCompatEditText {
         val password = text?.trim()
         error = when {
             password.isNullOrEmpty() -> {
-                resources.getString(R.string.password_valid)
+                resources.getString(R.string.password_invalid)
             }
             password.length < 6 -> {
                 resources.getString(R.string.password_invalid)

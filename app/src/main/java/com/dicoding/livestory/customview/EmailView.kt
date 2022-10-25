@@ -51,7 +51,7 @@ class EmailView : AppCompatEditText, View.OnTouchListener {
     private fun validationEmail() {
         val email = text?.trim()
         error = if (email.isNullOrEmpty()) {
-            resources.getString(R.string.email_valid)
+            resources.getString(R.string.invalid_email)
         } else if (!emailValid(email.toString())) {
             resources.getString(R.string.invalid_email)
         } else {

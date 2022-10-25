@@ -1,8 +1,11 @@
 package com.dicoding.livestory.addlivestory
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowManager
 import android.widget.Toast
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -27,8 +30,9 @@ class CameraActivity : AppCompatActivity() {
         camera = Executors.newSingleThreadExecutor()
         binding.btnCamera.setOnClickListener { takeImage() }
         binding.switchCamera.setOnClickListener {
-            if (cameraChoices == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
-            else CameraSelector.DEFAULT_BACK_CAMERA
+            cameraChoices =
+                if (cameraChoices == CameraSelector.DEFAULT_BACK_CAMERA) CameraSelector.DEFAULT_FRONT_CAMERA
+                else CameraSelector.DEFAULT_BACK_CAMERA
             startCamera()
         }
 
@@ -37,6 +41,12 @@ class CameraActivity : AppCompatActivity() {
     public override fun onResume() {
         super.onResume()
         startCamera()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        camera.shutdown()
     }
 
     private fun startCamera() {
@@ -102,10 +112,5 @@ class CameraActivity : AppCompatActivity() {
                 }
             }
         )
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        camera.shutdown()
     }
 }

@@ -51,6 +51,7 @@ class RegisterActivity : AppCompatActivity() {
                             )
                                 .show()
                             startActivity(Intent(this, LoginActivity::class.java))
+                            finish()
                         }
                         is Result.Error -> {
                             binding.progressBar.gone()

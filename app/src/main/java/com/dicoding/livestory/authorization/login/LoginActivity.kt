@@ -8,22 +8,21 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.dicoding.livestory.story.ListStory
 import com.dicoding.livestory.authorization.register.RegisterActivity
-import com.dicoding.livestory.authorization.register.RegisterViewModel
 import com.dicoding.livestory.databinding.ActivityLoginBinding
 import com.dicoding.livestory.model.Result
+import com.dicoding.livestory.story.ListStory
 import com.dicoding.livestory.util.*
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
 class LoginActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityLoginBinding
+    private var _binding: ActivityLoginBinding? = null
+    private val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+        _binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         playAnimation()
@@ -56,10 +55,9 @@ class LoginActivity : AppCompatActivity() {
 
                         sharedPref = SharedPreferences(this)
                         sharedPref.saveDataUser(userId, name, token, true)
-                        Intent(this@LoginActivity, ListStory::class.java).also {
-                            startActivity(it)
-                            finish()
-                        }
+                        val intennt = Intent(this@LoginActivity, ListStory::class.java)
+                        startActivity(intennt)
+                        finish()
                     }
                     is Result.Error -> {
                         binding.progressBar2.gone()
