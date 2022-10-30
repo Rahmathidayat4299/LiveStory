@@ -36,6 +36,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+
     private fun login() {
         val factory = ViewModelFactory.getInstance(this)
         val loginVm: LoginVm by viewModels { factory }
@@ -55,9 +56,10 @@ class LoginActivity : AppCompatActivity() {
 
                         sharedPref = SharedPreferences(this)
                         sharedPref.saveDataUser(userId, name, token, true)
-                        val intennt = Intent(this@LoginActivity, ListStory::class.java)
-                        startActivity(intennt)
-                        finish()
+                        val i = Intent(this, ListStory::class.java)
+                        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(i)
+
                     }
                     is Result.Error -> {
                         binding.progressBar2.gone()
