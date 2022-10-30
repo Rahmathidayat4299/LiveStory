@@ -13,6 +13,9 @@ import com.dicoding.livestory.R
 import com.dicoding.livestory.addlivestory.AddStoryActivity
 import com.dicoding.livestory.authorization.login.LoginActivity
 import com.dicoding.livestory.databinding.ActivityMainBinding
+import com.dicoding.livestory.maps.MapsActivity
+import com.dicoding.livestory.maps.MapsActivity.Companion.TOKEN
+import com.dicoding.livestory.maps.MapsStory
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.SharedPreferences
 import com.dicoding.livestory.util.gone
@@ -23,6 +26,7 @@ class ListStory : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var sharedPref: SharedPreferences
     private val adapterList = StoryListAdapter()
+    private var token : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -73,6 +77,11 @@ class ListStory : AppCompatActivity() {
                 Intent(this, AddStoryActivity::class.java).also {
                     startActivity(it)
                 }
+            }
+            R.id.map ->{
+                val intent = Intent(this, MapsStory::class.java)
+                intent.putExtra(TOKEN, token)
+                startActivity(intent)
             }
             R.id.close -> {
                 val builder = AlertDialog.Builder(this)

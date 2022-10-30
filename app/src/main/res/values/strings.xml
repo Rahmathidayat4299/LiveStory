@@ -24,5 +24,7 @@
     <string name="getgallery">getgallery</string>
     <string name="add_a_caption">add a caption</string>
     <string name="message_error">upload failed</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_maps_story">MapsStory</string>
 
 </resources>

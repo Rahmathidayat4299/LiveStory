@@ -7,10 +7,16 @@
         android:title="foto"
         app:showAsAction="always"
         />
+    <item
+        android:id="@+id/map"
+        android:icon="@drawable/ic_map"
+        android:title="close"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/close"
         android:icon="@drawable/ic_baseline_close_24"
         android:title="close"
         app:showAsAction="always"/>
+
 </menu>

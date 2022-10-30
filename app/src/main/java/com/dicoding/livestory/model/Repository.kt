@@ -9,6 +9,7 @@ import com.dicoding.livestory.model.local.EntityStory
 import com.dicoding.livestory.model.local.MemberDao
 import com.dicoding.livestory.model.response.LoginResult
 import com.dicoding.livestory.model.response.RegisterResult
+import com.dicoding.livestory.model.response.ResultStory
 import com.dicoding.livestory.model.response.UploadDataResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -112,6 +113,18 @@ class Repository private constructor(
         emitSource(localData)
 
     }
+
+    fun getListStoryByMaps(location: Int, token: String): LiveData<Result<ResultStory>> =
+        liveData {
+            emit(Result.Loading)
+            try {
+                val response = apiService.getListStoryByLocation(location, token)
+                emit(Result.Success(response))
+            } catch (e: java.lang.Exception) {
+                Log.d("Signup", e.message.toString())
+                emit(Result.Error(e.message.toString()))
+            }
+        }
 
     companion object {
         @Volatile

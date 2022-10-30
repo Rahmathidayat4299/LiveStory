@@ -7,6 +7,7 @@ import com.dicoding.livestory.di.Injection
 import com.dicoding.livestory.addlivestory.AddLiveStoryVm
 import com.dicoding.livestory.authorization.login.LoginVm
 import com.dicoding.livestory.authorization.register.RegisterViewModel
+import com.dicoding.livestory.maps.MapsViewModel
 import com.dicoding.livestory.model.Repository
 import com.dicoding.livestory.story.ListStoryViewModel
 
@@ -29,6 +30,9 @@ class ViewModelFactory private constructor(private val repository: Repository) :
             }
             modelClass.isAssignableFrom(AddLiveStoryVm::class.java) -> {
                 AddLiveStoryVm(repository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)
         }
