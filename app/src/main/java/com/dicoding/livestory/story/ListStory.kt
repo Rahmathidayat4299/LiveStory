@@ -13,8 +13,7 @@ import com.dicoding.livestory.R
 import com.dicoding.livestory.addlivestory.AddStoryActivity
 import com.dicoding.livestory.authorization.login.LoginActivity
 import com.dicoding.livestory.databinding.ActivityMainBinding
-import com.dicoding.livestory.maps.MapsActivity
-import com.dicoding.livestory.maps.MapsActivity.Companion.TOKEN
+import com.dicoding.livestory.maps.MapsStory.Companion.TOKEN
 import com.dicoding.livestory.maps.MapsStory
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.SharedPreferences

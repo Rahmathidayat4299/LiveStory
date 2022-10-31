@@ -1,6 +1,7 @@
 package com.dicoding.livestory.maps
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.os.Bundle
@@ -116,13 +117,14 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
+    @SuppressLint("MissingPermission")
     private fun getMyLocation() {
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mMap.isMyLocationEnabled = true
+           mMap.isMyLocationEnabled = true
         } else {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
@@ -130,5 +132,6 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
 
     companion object {
         const val TAG = "MapsStory"
+        const val TOKEN = "TOKEN"
     }
 }
