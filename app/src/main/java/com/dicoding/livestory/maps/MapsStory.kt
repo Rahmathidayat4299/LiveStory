@@ -12,15 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dicoding.livestory.R
 import com.dicoding.livestory.databinding.ActivityMapsStoryBinding
+import com.dicoding.livestory.model.Result
+import com.dicoding.livestory.model.response.ListStory
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.dicoding.livestory.model.Result
-import com.dicoding.livestory.model.local.EntityStory
-import com.dicoding.livestory.model.response.ListStory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsStory : AppCompatActivity(), OnMapReadyCallback {
@@ -43,14 +42,14 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
         if (token != null) {
             mapsViewModel.getStoryByMaps(1, authToken).observe(this) { result ->
                 if (result != null) {
-                    when(result) {
+                    when (result) {
                         is Result.Loading -> {
                         }
                         is Result.Success -> {
                             showMarker(result.data.listStory)
                         }
                         is Result.Error -> {
-                            Toast.makeText(this, result.error , Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -62,6 +61,7 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
     }
+
     private fun showMarker(listStory: List<ListStory>) {
         for (story in listStory) {
             val latlng = LatLng(story.lat, story.lon)
@@ -94,6 +94,7 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
         getMyLocation()
         setMapStyle()
     }
+
     private fun setMapStyle() {
         try {
             val success =
@@ -126,8 +127,8 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
+
     companion object {
         const val TAG = "MapsStory"
-        const val TOKEN = "TOKEN"
     }
 }
