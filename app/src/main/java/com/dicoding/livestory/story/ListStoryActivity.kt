@@ -8,62 +8,89 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.livestory.R
 import com.dicoding.livestory.addlivestory.AddStoryActivity
 import com.dicoding.livestory.authorization.login.LoginActivity
 import com.dicoding.livestory.databinding.ActivityMainBinding
+import com.dicoding.livestory.maps.MapsActivity
 import com.dicoding.livestory.maps.MapsStory.Companion.TOKEN
-import com.dicoding.livestory.maps.MapsStory
 import com.dicoding.livestory.model.Result
+import com.dicoding.livestory.util.LoadingStateAdapter
 import com.dicoding.livestory.util.SharedPreferences
 import com.dicoding.livestory.util.gone
 import com.dicoding.livestory.util.visible
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
-class ListStory : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding
+class ListStoryActivity : AppCompatActivity() {
+    private var _binding:ActivityMainBinding? = null
+    private  val binding get() = _binding!!
     private lateinit var sharedPref: SharedPreferences
     private val adapterList = StoryListAdapter()
     private var token : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         listStory()
+        swipeRefreshLayout()
+        binding.recycleViewListStory.layoutManager = LinearLayoutManager(this)
     }
 
     private fun listStory() {
-        val listStoryUser = adapterList
+        val listStoryAdapter = StoryListAdapter()
         val factory = ViewModelFactory.getInstance(this)
-        val viewModel: ListStoryViewModel by viewModels {
-            factory
-        }
-        sharedPref = SharedPreferences(this)
-        viewModel.getListStory(sharedPref.getToken()).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is Result.Loading -> {
-                        binding.progressBar.visible()
-                    }
-                    is Result.Success -> {
-                        binding.progressBar.gone()
-                        val listStory = result.data
-                        listStoryUser.submitList(listStory)
-                    }
-                    is Result.Error -> {
-                        Toast.makeText(this, "list not Found", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
+        val viewModel = ViewModelProvider(this, factory)[ListStoryViewModel::class.java]
 
-        }
-        binding.recycleViewListStory.apply {
-            layoutManager = LinearLayoutManager(this@ListStory)
-            setHasFixedSize(true)
-            adapter = listStoryUser
+        binding.recycleViewListStory.adapter = listStoryAdapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                listStoryAdapter.retry()
+            }
+        )
+
+        viewModel.storyList.observe(this) { dayat ->
+            listStoryAdapter.submitData(lifecycle, dayat)
         }
     }
+    private fun swipeRefreshLayout() {
+        binding.swipeRefresh.setOnRefreshListener {
+            listStory()
+            binding.swipeRefresh.isRefreshing = false
+        }
+    }
+
+//    private fun listStory() {
+//        val listStoryUser = adapterList
+//        val factory = ViewModelFactory.getInstance(this)
+//        val viewModel: ListStoryViewModel by viewModels {
+//            factory
+//        }
+//        sharedPref = SharedPreferences(this)
+//        viewModel.getListStory(sharedPref.getToken()).observe(this) { result ->
+//            if (result != null) {
+//                when (result) {
+//                    is Result.Loading -> {
+//                        binding.progressBar.visible()
+//                    }
+//                    is Result.Success -> {
+//                        binding.progressBar.gone()
+//                        val listStory = result.data
+//                        listStoryUser.submitList(listStory)
+//                    }
+//                    is Result.Error -> {
+//                        Toast.makeText(this, "list not Found", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//
+//        }
+//        binding.recycleViewListStory.apply {
+//            layoutManager = LinearLayoutManager(this@ListStoryActivity)
+//            setHasFixedSize(true)
+//            adapter = listStoryUser
+//        }
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_bar, menu)
@@ -78,7 +105,7 @@ class ListStory : AppCompatActivity() {
                 }
             }
             R.id.map ->{
-                val intent = Intent(this, MapsStory::class.java)
+                val intent = Intent(this, MapsActivity::class.java)
                 intent.putExtra(TOKEN, token)
                 startActivity(intent)
             }

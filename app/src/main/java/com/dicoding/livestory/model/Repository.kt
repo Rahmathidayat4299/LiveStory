@@ -4,8 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
 import androidx.lifecycle.map
+import androidx.paging.*
 import com.dicoding.livestory.model.apiservice.ApiService
 import com.dicoding.livestory.model.local.EntityStory
+import com.dicoding.livestory.model.local.LiveDb
 import com.dicoding.livestory.model.local.MemberDao
 import com.dicoding.livestory.model.response.LoginResult
 import com.dicoding.livestory.model.response.RegisterResult
@@ -19,7 +21,7 @@ import okhttp3.RequestBody
  */
 class Repository private constructor(
     private val apiService: ApiService,
-    private val memberDao: MemberDao
+    private val database: LiveDb
 ) {
     fun register(
         name: String,
@@ -89,52 +91,64 @@ class Repository private constructor(
         }
     }
 
-    fun getStoryList(apiKey: String): LiveData<Result<List<EntityStory>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getListStory("Bearer $apiKey")
-            val stories = response.listStory
-            val storyList = stories.map { story ->
-                EntityStory(
-                    story.id,
-                    story.name,
-                    story.description,
-                    story.photoUrl,
-                    story.createdAt
-                )
-            }
-            memberDao.insertStory(storyList)
-        } catch (e: Exception) {
-            Log.d("Repository", "getListStory: ${e.message.toString()} ")
-            emit(Result.Error(e.message.toString()))
-        }
-        val localData: LiveData<Result<List<EntityStory>>> =
-            memberDao.getStory().map { Result.Success(it) }
-        emitSource(localData)
-
-    }
+//    fun getStoryList(apiKey: String): LiveData<Result<List<EntityStory>>> = liveData {
+//        emit(Result.Loading)
+//        try {
+//            val response = apiService.getListStory("Bearer $apiKey")
+//            val stories = response.listStory
+//            val storyList = stories.map { story ->
+//                EntityStory(
+//                    story.id,
+//                    story.name,
+//                    story.description,
+//                    story.photoUrl,
+//                    story.createdAt
+//                )
+//            }
+//            memberDao.insertStory(storyList)
+//        } catch (e: Exception) {
+//            Log.d("Repository", "getListStory: ${e.message.toString()} ")
+//            emit(Result.Error(e.message.toString()))
+//        }
+//        val localData: LiveData<Result<List<EntityStory>>> =
+//            memberDao.getStory().map { Result.Success(it) }
+//        emitSource(localData)
+//
+//    }
 
     fun getListStoryByMaps(location: Int, token: String): LiveData<Result<ResultStory>> =
         liveData {
             emit(Result.Loading)
             try {
-                val response = apiService.getListStoryByLocation(location, token)
+                val response = apiService.getListStoryByLocation(location, "Bearer $token")
                 emit(Result.Success(response))
             } catch (e: java.lang.Exception) {
                 Log.d("Signup", e.message.toString())
                 emit(Result.Error(e.message.toString()))
             }
         }
+    fun getStoryList(): LiveData<PagingData<EntityStory>> {
+        @OptIn(ExperimentalPagingApi::class)
+        return Pager(
+            config = PagingConfig(
+                pageSize = 5
+            ),
+            remoteMediator = StoryRemoteMediator(database, apiService),
+            pagingSourceFactory = {
+                this.database.storyDao().getStory()
+            }
+        ).liveData
+    }
 
     companion object {
         @Volatile
         private var instance: Repository? = null
         fun getInstance(
             apiService: ApiService,
-            memberDao: MemberDao
+            database: LiveDb
         ): Repository =
             instance ?: synchronized(this) {
-                instance ?: Repository(apiService, memberDao)
+                instance ?: Repository(apiService, database)
             }.also { instance = it }
     }
 

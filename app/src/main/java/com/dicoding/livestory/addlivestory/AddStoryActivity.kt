@@ -14,7 +14,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.dicoding.livestory.databinding.ActivityAddStoryBinding
 import com.dicoding.livestory.model.Result
-import com.dicoding.livestory.story.ListStory
+import com.dicoding.livestory.story.ListStoryActivity
 import com.dicoding.livestory.util.*
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 import okhttp3.MediaType.Companion.toMediaType
@@ -135,7 +135,7 @@ class AddStoryActivity : AppCompatActivity() {
                                 binding.progressBarUpload.gone()
                                 Toast.makeText(this, "Success Upload story", Toast.LENGTH_SHORT)
                                     .show()
-                                val i = Intent(this, ListStory::class.java)
+                                val i = Intent(this, ListStoryActivity::class.java)
                                 i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                                 startActivity(i)
                             }

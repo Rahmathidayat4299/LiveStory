@@ -12,11 +12,12 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.dicoding.livestory.R
-import com.dicoding.livestory.databinding.ActivityMapsStoryBinding
+import com.dicoding.livestory.databinding.ActivityMapsBinding
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.model.response.ListStory
 import com.dicoding.livestory.util.SharedPreferences
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -24,36 +25,32 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 
-class MapsStory : AppCompatActivity(), OnMapReadyCallback {
+class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var mMap: GoogleMap
-    private lateinit var binding: ActivityMapsStoryBinding
-    private lateinit var sharedpref:SharedPreferences
+private lateinit var binding: ActivityMapsBinding
+    private lateinit var sharedpref: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMapsStoryBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+     binding = ActivityMapsBinding.inflate(layoutInflater)
+     setContentView(binding.root)
         val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
         val mapsViewModel: MapsViewModel by viewModels {
             factory
         }
-
-        val token = intent.getStringExtra("extra_key")
-        val authToken = "Bearer $token"
         sharedpref = SharedPreferences(this)
-        if (token != null) {
-            mapsViewModel.getStoryByMaps(1, sharedpref.getToken()).observe(this) { result ->
-                if (result != null) {
-                    when (result) {
-                        is Result.Loading -> {
-                        }
-                        is Result.Success -> {
-                            showMarker(result.data.listStory)
-                        }
-                        is Result.Error -> {
-                            Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                        }
+        mapsViewModel.getStoryByMaps(1, sharedpref.getToken()).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                    }
+                    is Result.Success -> {
+                        showMarker(result.data.listStory)
+                    }
+                    is Result.Error -> {
+                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -61,20 +58,8 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+                .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-    }
-
-    private fun showMarker(listStory: List<ListStory>) {
-        for (story in listStory) {
-            val latlng = LatLng(story.lat, story.lon)
-            mMap.addMarker(
-                MarkerOptions()
-                    .position(latlng)
-                    .snippet(story.description)
-                    .title(story.name)
-            )
-        }
     }
 
     /**
@@ -89,24 +74,34 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         mMap.uiSettings.isZoomControlsEnabled = true
-
-//        // Add a marker in Sydney and move the camera
-//        val sydney = LatLng(-6.200000, 106.816666)
-//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         getMyLocation()
         setMapStyle()
-    }
 
+        // Add a marker in Sydney and move the camera
+//        val sydney = LatLng(-34.0, 151.0)
+//        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+    private fun showMarker(listStory: List<ListStory>) {
+        for (story in listStory) {
+            val latlng = LatLng(story.lat, story.lon)
+            mMap.addMarker(
+                MarkerOptions()
+                    .position(latlng)
+                    .snippet(story.description)
+                    .title(story.name)
+            )
+        }
+    }
     private fun setMapStyle() {
         try {
             val success =
                 mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.map_style))
             if (!success) {
-                Log.e(TAG, "Style parsing failed.")
+                Log.e(MapsStory.TAG, "Style parsing failed.")
             }
         } catch (exception: Resources.NotFoundException) {
-            Log.e(TAG, "Can't find style. Error: ", exception)
+            Log.e(MapsStory.TAG, "Can't find style. Error: ", exception)
         }
     }
 
@@ -126,14 +121,9 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-           mMap.isMyLocationEnabled = true
+            mMap.isMyLocationEnabled = true
         } else {
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
-    }
-
-    companion object {
-        const val TAG = "MapsStory"
-        const val TOKEN = "TOKEN"
     }
 }

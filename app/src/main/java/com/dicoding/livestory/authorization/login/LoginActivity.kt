@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.livestory.authorization.register.RegisterActivity
 import com.dicoding.livestory.databinding.ActivityLoginBinding
 import com.dicoding.livestory.model.Result
-import com.dicoding.livestory.story.ListStory
+import com.dicoding.livestory.story.ListStoryActivity
 import com.dicoding.livestory.util.*
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
                         sharedPref = SharedPreferences(this)
                         sharedPref.saveDataUser(userId, name, token, true)
-                        val i = Intent(this, ListStory::class.java)
+                        val i = Intent(this, ListStoryActivity::class.java)
                         i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                         startActivity(i)
 

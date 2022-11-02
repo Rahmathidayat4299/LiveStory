@@ -12,7 +12,7 @@ object Injection {
     fun provideRepository(context: Context): Repository {
         val apiService = ApiConfig.getApiService()
         val database = LiveDb.getInstance(context)
-        val dao = database.storyDao()
-        return Repository.getInstance(apiService, dao)
+//        val dao = database.storyDao()
+        return Repository.getInstance(apiService, database)
     }
 }

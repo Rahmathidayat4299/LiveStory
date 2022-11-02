@@ -4,15 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.dicoding.livestory.model.RemoteKeys
+import com.dicoding.livestory.model.RemoteKeysDao
 
 /**
  * Created by Rahmat Hidayat on 09/10/2022.
  */
-@Database(entities = [EntityStory::class], version = 1)
+@Database(entities = [EntityStory::class,RemoteKeys::class], version = 2, exportSchema = false)
 abstract class LiveDb : RoomDatabase() {
 
     abstract fun storyDao(): MemberDao
-
+    abstract fun remoteKeysDao():RemoteKeysDao
     companion object {
         @Volatile
         private var instance: LiveDb? = null
@@ -21,7 +23,9 @@ abstract class LiveDb : RoomDatabase() {
                 instance ?: Room.databaseBuilder(
                     context.applicationContext,
                     LiveDb::class.java, "story.db"
-                ).build()
+                ).fallbackToDestructiveMigration()
+                    .build()
+                    .also { instance = it }
             }
     }
 

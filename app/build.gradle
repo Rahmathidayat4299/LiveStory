@@ -31,16 +31,18 @@ android {
     }
     kotlinOptions {
         jvmTarget = '1.8'
+        freeCompilerArgs += ["-Xopt-in=kotlin.RequiresOptIn"]
     }
     buildFeatures {
         viewBinding true
     }
+    namespace "com.dicoding.livestory"
 }
 
 dependencies {
 
     implementation 'androidx.room:room-ktx:2.4.3'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     kapt "androidx.room:room-compiler:2.4.3"
     def camerax_version = "1.1.0-beta02"
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -65,4 +67,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation "io.coil-kt:coil:1.4.0"
     implementation 'com.github.bumptech.glide:glide:4.14.1'
+    //paging
+    implementation "androidx.room:room-paging:2.4.3"
+    //paging 3
+    implementation "androidx.paging:paging-runtime-ktx:3.1.1"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 }

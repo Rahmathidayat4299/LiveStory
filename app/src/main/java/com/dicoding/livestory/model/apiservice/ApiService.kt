@@ -45,4 +45,11 @@ interface ApiService {
         @Part("description") description: RequestBody,
         @Part file: MultipartBody.Part
     ): UploadDataResponse
+
+    @GET("stories")
+    suspend fun getListStory(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): ResultStory
 }

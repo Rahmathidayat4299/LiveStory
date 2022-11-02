@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +16,7 @@ import com.dicoding.livestory.model.local.EntityStory
 /**
  * Created by Rahmat Hidayat on 16/10/2022.
  */
-class StoryListAdapter : ListAdapter<EntityStory, StoryListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class StoryListAdapter : PagingDataAdapter<EntityStory, StoryListAdapter.ViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -28,7 +29,9 @@ class StoryListAdapter : ListAdapter<EntityStory, StoryListAdapter.ViewHolder>(D
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val dataStory = getItem(position)
-        holder.bind(dataStory)
+        if (dataStory != null) {
+            holder.bind(dataStory)
+        }
 
     }
 
