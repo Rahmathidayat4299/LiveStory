@@ -117,14 +117,14 @@ class AddStoryActivity : AppCompatActivity() {
         if (file != null && !binding.edtDescription.text.isNullOrEmpty()) {
             val files = reduceFileImage(file as File)
             val description = binding.edtDescription.text.toString()
-                .toRequestBody("text/plain".toMediaType())
+//                .toRequestBody("text/plain".toMediaType())
             val requestImageFile = files.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "photo",
-                files.name,
-                requestImageFile
-            )
-            viewModel.uploadStory(sharedPreferences.getToken(), description, imageMultipart)
+//            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+//                "photo",
+//                files.name,
+//                requestImageFile
+//            )
+            viewModel.uploadStory(sharedPreferences.getToken(), description, files)
                 .observe(this) { result ->
                     if (result != null) {
                         when (result) {

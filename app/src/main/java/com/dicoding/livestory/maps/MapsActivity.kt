@@ -11,10 +11,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.datastore.preferences.protobuf.Empty
 import com.dicoding.livestory.R
 import com.dicoding.livestory.databinding.ActivityMapsBinding
 import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.model.response.ListStory
+import com.dicoding.livestory.story.StoryListAdapter
 import com.dicoding.livestory.util.SharedPreferences
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -30,6 +32,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 private lateinit var binding: ActivityMapsBinding
     private lateinit var sharedpref: SharedPreferences
+    private lateinit var adapterStory: StoryListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,8 @@ private lateinit var binding: ActivityMapsBinding
                     is Result.Loading -> {
                     }
                     is Result.Success -> {
-                        showMarker(result.data.listStory)
+//                        val list: List<ListStory> = result.data ?: emptyList()
+                        showMarker(result.data)
                     }
                     is Result.Error -> {
                         Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()

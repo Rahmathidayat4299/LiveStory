@@ -18,18 +18,18 @@ data class ResultStory(
 
 @Parcelize
 data class ListStory(
-    @SerializedName("createdAt")
-    val createdAt: String,
-    @SerializedName("description")
-    val description: String,
-    @SerializedName("id")
+    @field:SerializedName("id")
     val id: String,
-    @SerializedName("lat")
-    val lat: Double,
-    @SerializedName("lon")
-    val lon: Double,
-    @SerializedName("name")
+    @field:SerializedName("name")
     val name: String,
-    @SerializedName("photoUrl")
-    val photoUrl: String
+    @field:SerializedName("description")
+    val description: String,
+    @field:SerializedName("photoUrl")
+    val photoUrl: String,
+    @field:SerializedName("createdAt")
+    val createdAt: String,
+    @field:SerializedName("lat")
+    val lat: Double,
+    @field:SerializedName("lon")
+    val lon: Double
 ) : Parcelable

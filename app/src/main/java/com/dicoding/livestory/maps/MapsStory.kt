@@ -49,7 +49,7 @@ class MapsStory : AppCompatActivity(), OnMapReadyCallback {
                         is Result.Loading -> {
                         }
                         is Result.Success -> {
-                            showMarker(result.data.listStory)
+                            showMarker(result.data)
                         }
                         is Result.Error -> {
                             Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()

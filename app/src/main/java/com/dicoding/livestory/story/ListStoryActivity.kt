@@ -4,8 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -16,18 +14,14 @@ import com.dicoding.livestory.authorization.login.LoginActivity
 import com.dicoding.livestory.databinding.ActivityMainBinding
 import com.dicoding.livestory.maps.MapsActivity
 import com.dicoding.livestory.maps.MapsStory.Companion.TOKEN
-import com.dicoding.livestory.model.Result
 import com.dicoding.livestory.util.LoadingStateAdapter
-import com.dicoding.livestory.util.SharedPreferences
-import com.dicoding.livestory.util.gone
-import com.dicoding.livestory.util.visible
 import com.dicoding.livestory.viewmodelfactory.ViewModelFactory
 
 class ListStoryActivity : AppCompatActivity() {
     private var _binding:ActivityMainBinding? = null
     private  val binding get() = _binding!!
-    private lateinit var sharedPref: SharedPreferences
-    private val adapterList = StoryListAdapter()
+//    private lateinit var sharedPref: SharedPreferences
+//    private val adapterList = StoryListAdapter()
     private var token : String = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

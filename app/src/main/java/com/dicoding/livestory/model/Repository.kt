@@ -9,12 +9,14 @@ import com.dicoding.livestory.model.apiservice.ApiService
 import com.dicoding.livestory.model.local.EntityStory
 import com.dicoding.livestory.model.local.LiveDb
 import com.dicoding.livestory.model.local.MemberDao
-import com.dicoding.livestory.model.response.LoginResult
-import com.dicoding.livestory.model.response.RegisterResult
-import com.dicoding.livestory.model.response.ResultStory
-import com.dicoding.livestory.model.response.UploadDataResponse
+import com.dicoding.livestory.model.response.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 
 /**
  * Created by Rahmat Hidayat on 09/10/2022.
@@ -70,15 +72,22 @@ class Repository private constructor(
 
     fun uploadLiveStory(
         token: String,
-        description: RequestBody,
-        file: MultipartBody.Part
+        description: String,
+        file: File
     ): LiveData<Result<UploadDataResponse>> = liveData {
         emit(Result.Loading)
         try {
+            val desc = description.toRequestBody("text/plain".toMediaType())
+            val requestImageFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            val imageMultipart: MultipartBody.Part = MultipartBody.Part.createFormData(
+                "photo",
+                file.name,
+                requestImageFile
+            )
             val response = apiService.uploadStory(
                 "Bearer $token",
-                description,
-                file
+                desc,
+                imageMultipart
             )
             if (response.error) {
                 emit(Result.Error(response.message))
@@ -116,12 +125,16 @@ class Repository private constructor(
 //
 //    }
 
-    fun getListStoryByMaps(location: Int, token: String): LiveData<Result<ResultStory>> =
+    fun getListStoryByMaps(location: Int, token: String): LiveData<Result<List<ListStory>>> =
         liveData {
             emit(Result.Loading)
             try {
                 val response = apiService.getListStoryByLocation(location, "Bearer $token")
-                emit(Result.Success(response))
+                if (response.error){
+                    emit(Result.Error(response.message))
+                }else{
+                    emit(Result.Success(response.listStory))
+                }
             } catch (e: java.lang.Exception) {
                 Log.d("Signup", e.message.toString())
                 emit(Result.Error(e.message.toString()))
